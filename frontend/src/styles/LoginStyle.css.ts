@@ -140,6 +140,7 @@ export const formContainer = style({
 
 export const info = style({
   textAlign: "center",
+  fontSize: "1.5rem",
 });
 
 export const title = style({

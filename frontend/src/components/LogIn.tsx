@@ -95,12 +95,15 @@ function Login({
   return (
     <div className={signInContainer} data-signin={signin}>
       <form className={formContainer} onSubmit={handleLogin}>
-        <p className={info}>현재 로그인 없이 이용 가능합니다.</p>
+        <p className={info}>
+          현재 로그인 없이 가상의 데이터로 보기만 가능합니다.
+        </p>
         <h1 className={title}>Sign in</h1>
 
         <Input
           type="text"
           value={logInEmail}
+          disabled
           onChange={(e) => setLogInEmail(e.target.value)}
           // required
         >
@@ -109,6 +112,7 @@ function Login({
         <Input
           type="password"
           value={logInPw}
+          disabled
           onChange={(e) => setLogInPw(e.target.value)}
           // required
           // onKeyDown={handlePasswordConfirmKeyDown}
