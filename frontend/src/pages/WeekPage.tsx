@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+// import axios from "../api/axios";
 import { useHorizontalScroll3 } from "../hooks/useHorizontalScroll";
-import useAuthStore from "../store/useAuth";
+// import useAuthStore from "../store/useAuth";
 import {
   weekBackgroundImage01,
   weekBackgroundImage02,
@@ -15,7 +15,7 @@ import {
   weekSelectBoxContainer,
   weekSelectText,
 } from "../styles/WeekPage.css";
-
+import quizDataList from "../utils/quizData.json";
 interface DateObject {
   day: string;
   date: string;
@@ -32,35 +32,35 @@ interface ScoreData {
 
 const WeekPage = () => {
   const navigate = useNavigate();
-  const { levelName } = useAuthStore();
+  // const { levelName } = useAuthStore();
   const date = new Date();
   const today = date.getDay(); // 현재 요일 (0: 일요일, 1: 월요일, ..., 6: 토요일)
   const monday = new Date(date); // 현재 날짜를 복제하여 월요일로 설정
   monday.setDate(monday.getDate() - today + 1); // 월요일로 설정
   const lastDays = new Date(monday.getTime() + 6 * 24 * 60 * 60 * 1000); // 다음 일요일까지의 날짜 계산
-  const [scoreData, setScoreData] = useState<ScoreData[]>([]);
+  const [scoreData] = useState<ScoreData[]>([]);
   // console.log("todayWeek", today);
   const ref = useHorizontalScroll3();
 
-  const getUserScore = async () => {
-    try {
-      const response = await axios.get(
-        `/api/v1/user/userscore/${localStorage.getItem("level")}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-      // console.log("levelName", levelName), console.log("score", response);
-      setScoreData(response.data.scores_and_quiz_tries_by_day);
-    } catch (error) {
-      console.log("week get 에러 : ", error);
-    }
-  };
+  // const getUserScore = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `/api/v1/user/userscore/${localStorage.getItem("level")}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //         },
+  //       }
+  //     );
+  //     // console.log("levelName", levelName), console.log("score", response);
+  //     setScoreData(response.data.scores_and_quiz_tries_by_day);
+  //   } catch (error) {
+  //     console.log("week get 에러 : ", error);
+  //   }
+  // };
 
   useEffect(() => {
-    getUserScore();
+    // getUserScore();
   }, []);
 
   const getDate = (): (string | DateObject)[] => {
@@ -106,25 +106,25 @@ const WeekPage = () => {
       alert(`오늘은 ${todayWeekDay}요일 입니다!`);
       return;
     }
-    try {
-      const response = await axios.get(`/api/v1/gpt/quiz//${levelName}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
-      // console.log("week", response.data);
-      if (response.status === 200) {
-        if (response.data.length === 0) return alert("문제가 없습니다.");
-        navigate("/quiz", {
-          state: {
-            data: response.data,
-            day: day,
-          },
-        });
-      }
-    } catch (error) {
-      console.log("week get 에러 : ", error);
-    }
+    navigate("/quiz", {
+      state: {
+        data: quizDataList,
+        day: day,
+      },
+    });
+    // try {
+    //   const response = await axios.get(`/api/v1/gpt/quiz//${levelName}`, {
+    //     headers: {
+    //       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    //     },
+    //   });
+    //   // console.log("week", response.data);
+    //   if (response.status === 200) {
+    //     if (response.data.length === 0) return alert("문제가 없습니다.");
+    //   }
+    // } catch (error) {
+    //   console.log("week get 에러 : ", error);
+    // }
   };
 
   return (

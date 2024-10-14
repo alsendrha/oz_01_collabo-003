@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+// import axios from "../api/axios";
 import Loading from "../components/Loading";
 import QuizInput from "../components/QuizInput";
-import useAuthStore from "../store/useAuth";
+// import useAuthStore from "../store/useAuth";
 import {
   quizButton,
   quizButtonDiv,
@@ -24,14 +24,13 @@ function QuizPage() {
   // console.log("리렌더링된다");
   const navigate = useNavigate();
   const location = useLocation();
-
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(0);
   const [answers, setAnswers] = useState<string[]>(Array(5).fill(""));
   // const answers = useRef<string[]>(Array(5).fill(""));
   const [quizs, setQuizs] = useState<QuizDetail[]>([]);
   // const [answers, setAnswers] = useState<string[]>(quizs.map(() => ""));
   // const [feedback, setFeedback] = useState({});
-  const { levelName } = useAuthStore();
+  // const { levelName } = useAuthStore();
   // console.log(levelName);
   useEffect(() => {
     setQuizs(location.state.data);
@@ -70,6 +69,7 @@ function QuizPage() {
     }
   };
   const handlePostQuiz = () => {
+    setIsLoading(true);
     // console.log(
     //   "문제",
     //   quizs.map((quiz) => quiz.question)
@@ -81,62 +81,65 @@ function QuizPage() {
     // );
     //문제 제출하는 로직
 
-    async function FetchPostQuiz() {
-      // console.log(levelName);
-      setIsLoading(true);
-      try {
-        const request = await axios.post(
-          `/api/v1/quiz/`,
-          {
-            quizLevel: levelName,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
+    // async function FetchPostQuiz() {
+    //   // console.log(levelName);
+    //   try {
+    //     const request = await axios.post(
+    //       `/api/v1/quiz/`,
+    //       {
+    //         quizLevel: levelName,
+    //       },
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    //         },
+    //       }
+    //     );
 
-        // console.log(request.data.id);
-        localStorage.setItem("id", request.data.id);
-        // console.log("아이디", localStorage.setItem("id", request.data.id));
+    //     // console.log(request.data.id);
+    //     localStorage.setItem("id", request.data.id);
+    //     // console.log("아이디", localStorage.setItem("id", request.data.id));
 
-        if (request.status === 201) {
-          localStorage.setItem("id", request.data.id);
-          const url = `/api/v1/gpt/feedback/${localStorage.getItem("id")}/`;
+    //     if (request.status === 201) {
+    //       localStorage.setItem("id", request.data.id);
+    //       const url = `/api/v1/gpt/feedback/${localStorage.getItem("id")}/`;
 
-          const response = await axios.post(
-            url,
-            {
-              question: quizs.map((quiz) => quiz.question),
-              answer: answers,
-              orderNum: quizs.map((quiz) => quiz.id),
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              },
-            }
-          );
-          // console.log(response.data);
-          // console.log(url);
-          // console.log(response);
-          if (response.status === 201) {
-            setIsLoading(false);
-            // console.log("문제,정답 보내기 성공!");
-            // setFeedback(response.data);
-            navigate("/result", { state: { id: localStorage.getItem("id") } });
-            // localStorage.setItem("feedback", JSON.stringify(response.data));
-          } else if (response.status === 400) {
-            // console.log("문제,정답 보내기 실패");
-          }
-        }
-      } catch (error) {
-        console.log(error);
-        // console.log(levelName);
-      }
-    }
-    FetchPostQuiz();
+    //       const response = await axios.post(
+    //         url,
+    //         {
+    //           question: quizs.map((quiz) => quiz.question),
+    //           answer: answers,
+    //           orderNum: quizs.map((quiz) => quiz.id),
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    //           },
+    //         }
+    //       );
+    //       // console.log(response.data);
+    //       // console.log(url);
+    //       // console.log(response);
+    //       if (response.status === 201) {
+    //         setIsLoading(false);
+    //         // console.log("문제,정답 보내기 성공!");
+    //         // setFeedback(response.data);
+    //         navigate("/result", { state: { id: localStorage.getItem("id") } });
+    //         // localStorage.setItem("feedback", JSON.stringify(response.data));
+    //       } else if (response.status === 400) {
+    //         // console.log("문제,정답 보내기 실패");
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //     // console.log(levelName);
+    //   }
+    // }
+    // FetchPostQuiz();
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate("/result");
+    }, 5000);
   };
   const handleKeyDown = handleSubmitKeyPress(handleNextQuiz);
   const handleAnswerChange = (index: number, answer: string) => {

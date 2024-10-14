@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { quizTitleContainer } from "../styles/QuizStyle.css";
 
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
+// import axios from "../api/axios";
 import {
   FlippedContainer,
   back,
@@ -28,9 +28,10 @@ import {
   score,
   yourScoreTitle,
 } from "../styles/ResultStyle.css";
+import quizData from "../utils/data.json";
 
 function ResultPage() {
-  const location = useLocation();
+  // const location = useLocation();
   // console.log(location.state.id);
   interface result {
     id: number;
@@ -41,11 +42,12 @@ function ResultPage() {
     category: number;
     gptanswer: string;
   }
-  const [result, setResult] = useState<result[]>([]);
-  const [isLoading, setIsLoading] = useState(false); //고치기
+  const [result] = useState<result[]>([]);
+  const [isLoading] = useState(false); //고치기
   const [isFlipped, setIsFlipped] = useState(false);
-
-  const totalScore = result.reduce((accumulator, currentResult) => {
+  const quizAnswer = quizData.quiz_data[0];
+  console.log(quizAnswer);
+  const totalScore = quizAnswer.quizzes.reduce((accumulator, currentResult) => {
     return accumulator + currentResult.score;
   }, 0);
   // console.log(result);
@@ -54,36 +56,36 @@ function ResultPage() {
   const handleDetailButtonClick = () => {
     setIsFlipped(!isFlipped);
   };
-  const handleGetResult = () => {
-    async function FetchGetResult() {
-      const url = `/api/v1/gpt/feedback/${
-        location.state.id ? location.state.id : localStorage.getItem("id")
-      }/`;
-      try {
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
-        // console.log(response.data);
-        if (response.status === 200) {
-          // console.log("결과 가져오기 성공!");
-          setResult(response.data);
-          setIsLoading(false);
-        } else if (response.status === 400) {
-          // console.log("결과 가져오기 실패");
-        }
-      } catch (error) {
-        console.log(error);
-        // console.log(url);
-      }
-    }
-    FetchGetResult();
-  };
+  // const handleGetResult = () => {
+  //   async function FetchGetResult() {
+  //     const url = `/api/v1/gpt/feedback/${
+  //       location.state.id ? location.state.id : localStorage.getItem("id")
+  //     }/`;
+  //     try {
+  //       const response = await axios.get(url, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //         },
+  //       });
+  //       // console.log(response.data);
+  //       if (response.status === 200) {
+  //         // console.log("결과 가져오기 성공!");
+  //         setResult(response.data);
+  //         setIsLoading(false);
+  //       } else if (response.status === 400) {
+  //         // console.log("결과 가져오기 실패");
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //       // console.log(url);
+  //     }
+  //   }
+  //   FetchGetResult();
+  // };
 
-  useEffect(() => {
-    handleGetResult();
-  }, []);
+  // useEffect(() => {
+  //   handleGetResult();
+  // }, []);
 
   if (isLoading) return <div>로딩중...</div>;
   else {
@@ -116,7 +118,7 @@ function ResultPage() {
               </div>
               <div className={back}>
                 <div className={FlippedContainer}>
-                  {result.map((item, index: number) => (
+                  {quizAnswer.quizzes.map((item, index: number) => (
                     <div className={qiuzDiv} key={index}>
                       <p className={resultNum}>문제{index + 1}</p>
 

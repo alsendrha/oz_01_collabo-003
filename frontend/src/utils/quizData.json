@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "question": "사과는 영어로 뭐라고 할까요?",
+    "category": "과일",
+    "level": "초등학생"
+  },
+  {
+    "id": 2,
+    "question": "수박은 영어로 뭐라고 할까요?",
+    "category": "과일",
+    "level": "초등학생"
+  },
+  {
+    "id": 3,
+    "question": "복숭아는 영어로 뭐라고 할까요?",
+    "category": "과일",
+    "level": "초등학생"
+  },
+  {
+    "id": 4,
+    "question": "포도는 영어로 뭐라고 할까요?",
+    "category": "과일",
+    "level": "초등학생"
+  },
+  {
+    "id": 5,
+    "question": "하늘은 영어로 뭐라고 할까요?",
+    "category": "과일",
+    "level": "초등학생"
+  }
+]
