@@ -9,9 +9,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import axios from "../api/axios";
+// import axios from "../api/axios";
 import ReviewComponent from "../components/ReviewComponent";
-import useAuthStore from "../store/useAuth";
+// import useAuthStore from "../store/useAuth";
 import {
   learningBox01Content,
   learningBox01ContentBox,
@@ -55,19 +55,19 @@ interface QuizDataItem {
   quizzes: QuizItem[];
 }
 
-interface UserData {
-  user: {
-    id: number;
-    email: string;
-    nickName: string;
-    imgUrl: string;
-  };
-  quiz_data: QuizDataItem[];
-}
+// interface UserData {
+//   user: {
+//     id: number;
+//     email: string;
+//     nickName: string;
+//     imgUrl: string;
+//   };
+//   quiz_data: QuizDataItem[];
+// }
 
 const MyLearningPage = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const [userData, setUserData] = useState<UserData | undefined>();
+  // const [userData, setUserData] = useState<UserData | undefined>();
   const [detailUserData, setDetailUserData] = useState<
     QuizDataItem | undefined
   >();

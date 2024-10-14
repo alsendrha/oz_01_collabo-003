@@ -9,7 +9,7 @@ import QuizPage from "../pages/QuizPage";
 import ResultPage from "../pages/ResultPage";
 import UserUpdatePage from "../pages/UserUpdatePage";
 import WeekPage from "../pages/WeekPage";
-import PrivateRoute from "./PrivateRoute";
+// import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
 const Layout = () => {

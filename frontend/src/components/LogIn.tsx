@@ -5,13 +5,13 @@ import {
   elseButton,
   formContainer,
   info,
-  inputMessage,
+  // inputMessage,
   signInContainer,
   title,
 } from "../styles/LoginStyle.css";
 
 import { useState } from "react";
-import axios from "../api/axios";
+// import axios from "../api/axios";
 import Input from "./Input";
 
 type Props = {
@@ -20,12 +20,16 @@ type Props = {
   setPassWordModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function Login({ signin, setSignIn, setPassWordModalOpen }: Props) {
+function Login({
+  signin,
+  // setSignIn,
+  setPassWordModalOpen,
+}: Props) {
   const navigate = useNavigate();
   //로그인
   const [logInEmail, setLogInEmail] = useState<string>("");
   const [logInPw, setLogInPw] = useState<string>("");
-  const [loginErrorMessage, setLoginErrorMessage] = useState<string>("");
+  // const [loginErrorMessage, setLoginErrorMessage] = useState<string>("");
 
   //로그인 버튼 클릭 시 실행되는 함수
   const handleLogin: React.MouseEventHandler<HTMLFormElement> = (e) => {
@@ -111,7 +115,7 @@ function Login({ signin, setSignIn, setPassWordModalOpen }: Props) {
         >
           Password
         </Input>
-        <p className={inputMessage}>{loginErrorMessage}</p>
+        {/* <p className={inputMessage}>{loginErrorMessage}</p> */}
         <p className={anchor} onClick={() => setPassWordModalOpen(true)}>
           Forgot your password?
         </p>
