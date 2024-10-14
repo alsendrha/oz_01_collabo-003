@@ -17,6 +17,7 @@ export const mainButton = style([
   buttonStyle,
   {
     backgroundColor: "#838ade9d",
+    alignItems: "center",
     width: "270px",
     left: "50%",
     outline: "none",
