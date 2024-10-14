@@ -36,7 +36,7 @@ const Input = ({
           value={value}
           onChange={onChange}
           type={type}
-          required
+          // required
           disabled={disabled}
           onPaste={onPaste}
           onKeyDown={onKeyDown}

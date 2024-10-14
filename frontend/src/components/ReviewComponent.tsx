@@ -70,6 +70,7 @@ const ReviewComponent = ({
 
   const handleAnswerCheck = (index: number) => {
     const newErrors = inputValues.map((text, idx) => {
+      console.log("textdddd", detailUserData?.quizzes?.[idx].answer);
       if (idx === index && !text) {
         return "답을 입력해주세요";
       } else if (

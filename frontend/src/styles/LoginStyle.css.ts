@@ -138,6 +138,10 @@ export const formContainer = style({
   zIndex: 999,
 });
 
+export const info = style({
+  textAlign: "center",
+});
+
 export const title = style({
   fontWeight: "bold",
   marginBottom: "1rem",

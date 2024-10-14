@@ -28,16 +28,16 @@ function Router() {
         <Route path="/" element={<MainPage />} />
         <Route path="/auth/login-signup" element={<Auth />} />
       </Route>
-      <Route element={<PrivateRoute />}>
-        <Route element={<Layout />}>
-          <Route path="/level" element={<LevelPage />} />
-          <Route path="/week/:levelTitle" element={<WeekPage />} />
-          <Route path="/learning" element={<MyLearningPage />} />
-          <Route path="/user-update" element={<UserUpdatePage />} />
-          <Route path="/quiz" element={<QuizPage />} />
-          <Route path="/result" element={<ResultPage />} />
-        </Route>
+      {/* <Route element={<PrivateRoute />}> */}
+      <Route element={<Layout />}>
+        <Route path="/level" element={<LevelPage />} />
+        <Route path="/week/:levelTitle" element={<WeekPage />} />
+        <Route path="/learning" element={<MyLearningPage />} />
+        <Route path="/user-update" element={<UserUpdatePage />} />
+        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/result" element={<ResultPage />} />
       </Route>
+      {/* </Route> */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

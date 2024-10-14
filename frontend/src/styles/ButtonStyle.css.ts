@@ -16,11 +16,12 @@ export const buttonStyle = style({
 export const mainButton = style([
   buttonStyle,
   {
+    display: "flex",
+    justifyContent: "center",
     backgroundColor: "#838ade9d",
     alignItems: "center",
     width: "270px",
     left: "50%",
-    outline: "none",
     transform: "translateX(-50%)",
     top: "82%",
     boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",

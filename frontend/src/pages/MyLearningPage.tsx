@@ -31,6 +31,7 @@ import {
   rotate,
   widthAnimation,
 } from "../styles/MyLearningPage.css";
+import quizDataList from "../utils/data.json";
 
 interface QuizItem {
   id: number;
@@ -70,30 +71,33 @@ const MyLearningPage = () => {
   const [detailUserData, setDetailUserData] = useState<
     QuizDataItem | undefined
   >();
+  const quizData = quizDataList;
+  console.log("퀴즈데이터", quizData);
+
   const [selectedDataIndex, setSelectedDataIndex] = useState<number | null>(
     null
   );
   const [onCardClicked, setOnCardClicked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const { userName } = useAuthStore();
-  const getUserData = async () => {
-    try {
-      const response = await axios.get("/api/v1/user/", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
-      setUserData(response.data);
-      setIsLoading(false);
-      // console.log("나의 학습공간", response);
-    } catch (error) {
-      console.log("학습공간 에러", error);
-    }
-  };
+  // const [isLoading, setIsLoading] = useState(true);
+  // const { userName } = useAuthStore();
+  // const getUserData = async () => {
+  //   try {
+  //     const response = await axios.get("/api/v1/user/", {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //       },
+  //     });
+  //     setUserData(response.data);
+  //     setIsLoading(false);
+  //     // console.log("나의 학습공간", response);
+  //   } catch (error) {
+  //     console.log("학습공간 에러", error);
+  //   }
+  // };
   // console.log("유저데이터", userData);
   // 브라우저 사이즈에 따라 카드 클릭 상태 초기화
   useEffect(() => {
-    getUserData();
+    // getUserData();
     const handleResize = () => {
       if (window.innerWidth >= 1310) {
         setOnCardClicked(false);
@@ -127,8 +131,8 @@ const MyLearningPage = () => {
     }
   };
 
-  if (isLoading) return <div>로딩중...</div>;
-  const data1 = userData!.quiz_data.map((data) => {
+  // if (isLoading) return <div>로딩중...</div>;
+  const data1 = quizData.quiz_data.map((data) => {
     const dateString = data.quiz_try.createdAt;
     const date = new Date(dateString);
     const formattedDate = `${date.getFullYear()}.${String(
@@ -142,13 +146,13 @@ const MyLearningPage = () => {
     };
   });
 
-  if (!userData) return <div>로딩중...</div>;
-  const totalQuestions = userData!.quiz_data.reduce(
+  if (!quizData) return <div>로딩중...</div>;
+  const totalQuestions = quizData!.quiz_data.reduce(
     (total, data) => total + data.quizzes.length,
     0
   );
 
-  const averageScores = userData.quiz_data.map((data) => {
+  const averageScores = quizData.quiz_data.map((data) => {
     return data.quizzes.reduce((acc, curr) => acc + curr.score, 0);
   });
   const totalScore = averageScores.reduce((acc, score) => acc + score, 0);
@@ -157,7 +161,7 @@ const MyLearningPage = () => {
   return (
     <div className={myLearningPageMainContainer}>
       <div className={myLearningPageTitle}>
-        <p>{userName}님의 학습 공간</p>
+        <p>{quizData.user.nickName}님의 학습 공간</p>
       </div>
       <div className={`${myLearningPageContentContainer}`}>
         <div
@@ -173,7 +177,7 @@ const MyLearningPage = () => {
             <div className={learningBox01ContentContainer}>
               <p className={learningBox01ContentTitle}>내가 푼 문제</p>
               <div className={learningBox01ContentBox}>
-                {userData.quiz_data.map((data, index) => {
+                {quizData.quiz_data.map((data, index) => {
                   const averageScore = data.quizzes.reduce(
                     (acc, curr) => acc + curr.score,
                     0
